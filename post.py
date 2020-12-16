@@ -5,7 +5,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import *
+from selenium.common.exceptions import WebDriverException as WDE
+from selenium.common.exceptions import NoSuchElementException as NSEE
+from selenium.common.exceptions import InvalidElementStateException as IESE
+
 
 
 print('Generator of links for Yandex.Disk and Pastebin.com')
@@ -34,16 +37,72 @@ driver = webdriver.Chrome('C:\\Users\\User\\Desktop\\chromedriver.exe')
 ##    else:
 ##        pass
 
-col = 0
+
 if service == 'yandex.disk':
-    while col != 100:
+    loc = 0
+    m = int(input('Please, enter quantity of links:'))
+    while loc != m:
         #haven't +-/*!&$#?=w@<>
         chars = list('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
         #length = int(input(col +'Length links?'+ '\n'))
         length = 14
         random.shuffle(chars)
         link = ''.join([random.choice(chars) for x in range(length)])
-        res = str(f'https://yadi.sk/d/{link}'+'\n'+f'https://yadi.sk/i/{link}'+'\n')
+        res1 = str(f'https://yadi.sk/d/{link}')
+        res2 = str(f'https://yadi.sk/i/{link}')
+        '''
+        DEBAGGING
+        '''
+        if (res1 != True) or (res2 != True):
+            random.shuffle(chars)
+            link = ''.join([random.choice(chars) for x in range(length)])
+            res1 = str(f'https://yadi.sk/d/{link}')
+            res2 = str(f'https://yadi.sk/i/{link}')
+            driver.get(res1, res2)
+            try:
+                yc0 = driver.find_elements_by_class_name(' ')
+                if (yc0 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res1+'\n')
+                    print(col+' '+'+'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res1+'\n')
+                    print(col+' '+'-'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+            except NoSuchElementException:
+                yc1 = driver.find_elements(By.XPATH, ' ')
+                if (yc1 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res1+'\n')
+                    print(col+' '+'+'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res1+'\n')
+                    print(col+' '+'-'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+            except NoSuchElementException:
+                yc2 = driver.find_elements_by_class_name(' ')
+                if (yc2 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res1+'\n')
+                    print(col+' '+'+'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res1+'\n')
+                    print(col+' '+'-'+' '+res2+'\n')
+                    col = int(col)
+                    col = col+1
+        else:
+            print('Error 01')       
 ##        '''
 ##        Переход по ссылке в переменной res и работа с html
 ##        '''
@@ -63,60 +122,69 @@ if service == 'yandex.disk':
 ##            col = col+1
 ##            driver.close()
 elif service == 'pastebin':
-    while col != 100:
+    col = 0
+    n = int(input('Please, enter quantity of links:'))
+    while col != int(n):
         chars = list('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
         length = 8
         random.shuffle(chars)
         link = ''.join([random.choice(chars) for x in range(length)])
-        res0 = str(f'https://pastebin.com/{link}'+'\n')
-        '''
-        Переход on link at value res1 and work with html
-        '''
-        driver.get(res0)
-        pstb = driver.find_elements_by_xpath(By.XPATH, '/html/body/div[1]/div[2]/div[1]/div[2]/div[1]')
-        '''
-        Eceptions errors
-        '''
-        try:
-            if (pstb != None) or (pstb == 'Not Found (#404)'):
-                col = str(col)
-                print(col+' '+'-'+' '+res0)
-                col = int(col)
-                col = col+1
-                driver.close()
-            else:
-                col = str(col)
-                print(col+' '+'+'+' '+res0)
-                col = int(col)
-                col = col+1
-                driver.close()
-        except NoSuchElementException or StaleElementReferenceException or InvalidSessionIdException:
-            if (pstb != None) or (pstb == 'Not Found (#404)'):
-                col = str(col)
-                print(col+' '+'-'+' '+res0)
-                col = int(col)
-                col = col+1
-                driver.close()
-            else:
-                col = str(col)
-                print(col+' '+'+'+' '+res0)
-                col = int(col)
-                col = col+1
-                driver.close()
-
-
-        '''
-        Сделать возможность работы Selenium в скрытом режиме
-        + до тех пор, пока не будет положительного результата
-        '''
-            
-##        /html/body/div[1]/div[2]/div[1]/div[2]/div[1] Not found 404 on Pastebin
-##        col = str(col)
-##        print(col+' '+res1)
-##        col = int(col)
-##        col = col+1
+        res0 = str(f'https://pastebin.com/{link}')
+##      res1 = str(f'https://pastebin.com/u/{link}'+'\n')
+##      Generate link on users
+        '''Transition on link at value res1 and work with html'''
+        if (res0 != True):
+            random.shuffle(chars)
+            link = ''.join([random.choice(chars) for x in range(length)])
+            res0 = str(f'https://pastebin.com/{link}')
+            driver.get(res0)
+            try:
+                pstb0 = driver.find_elements_by_class_name('username')
+                if (pstb0 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+            except NoSuchElementException:
+                pstb1 = driver.find_elements(By.XPATH, '//div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[2]/div[1]')
+                if (pstb1 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+            except NoSuchElementException:
+                pstb2 = driver.find_elements_by_class_name('info-top')
+                if (pstb2 == True):
+                    col = str(col)
+                    print(col+' '+'+'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+                else:
+                    col = str(col)
+                    print(col+' '+'-'+' '+res0+'\n')
+                    col = int(col)
+                    col = col+1
+        else:
+            pass
+            '''
+            WRITE SELECTED LINKS IN RESULT
+            '''
+            '''Eceptions errors'''
+            '''
+            Сделать возможность работы Selenium в скрытом режиме
+            + до тех пор, пока не будет положительного результата
+            '''
 else:
     print('Service not found')
-    col = int(col)
-    col = col+1
+
 
